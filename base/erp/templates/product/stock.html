@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		.img-invoice {
+			width: 50px;
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.head {
+			text-align: center;
+			text-transform: uppercase;
+		}
+
+		#invoice thead tr th {
+			text-align: left;
+			border-bottom: 1px solid black;
+			border-top: 1px solid black;
+			padding-top: 4px;
+		}
+
+		#invoice thead tr {
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+
+		#invoice tbody tr {
+			padding: 0;
+		}
+
+		.text-center {
+			text-align: center;
+		}
+	</style>
+	<body>
+		<img src="{{ icon }}" class="img-invoice" />
+
+		<p>
+			<b>STOCK</b>
+		</p>
+		<table id="invoice">
+			<thead>
+				<tr>
+					<th style="width: 10%">CODIGO</th>
+					<th style="width: 30%">NOMBRE</th>
+					<th style="width: 10%">CANT</th>
+					<th style="width: 10%">P.UNIT</th>
+					<th style="width: 10%">P.SALE</th>
+					<th style="width: 10%">CATEGORÍA</th>
+					<th style="width: 10%">DISTRIBUIDOR</th>
+					<th style="width: 10%">LOCAL</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in products %}
+				<tr {% if forloop.first %}style="padding-top: 3px;" {% endif %}>
+					<td>{{ product.code }}</td>
+					<td>{{ product.name }}</td>
+					<td>{{ product.stock }}</td>
+					<td>${{ product.unit_price }}</td>
+					<td>${{ product.sale_price }}</td>
+					<td>{{ product.category.name }}</td>
+					<td>{{ product.dealer.name }}</td>
+					<td>{{ product.sale_location.name }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<table style="margin-top: 15px">
+			<thead>
+				<tr>
+					<th>****FIN****</th>
+				</tr>
+			</thead>
+		</table>
+	</body>
+</html>

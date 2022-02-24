@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		.img-invoice {
+			width: 50px;
+			text-align: center;
+			margin: 0 auto;
+		}
+
+		.head {
+			text-align: center;
+			text-transform: uppercase;
+		}
+
+		#invoice thead tr th {
+			text-align: left;
+			border-bottom: 1px solid black;
+			border-top: 1px solid black;
+			padding-top: 4px;
+		}
+
+		#invoice thead tr {
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+
+		#invoice tbody tr {
+			padding: 0;
+		}
+
+		.text-center {
+			text-align: center;
+		}
+	</style>
+	<body>
+		<img src="{{ icon }}" class="img-invoice" />
+		<p class="head">
+			{{ comp.name|upper }}<br />
+			{{ comp.ruc }}<br />
+			{{ comp.address|upper }}
+		</p>
+		<p>
+			<b>GUIA:</b> 000{{ guide.id }}<br />
+			<b>FECHA DE VENTA:</b> {{ guide.date_joined }}<br />
+			<b>LOCAL:</b> {{ guide.sale_location.name }}<br />
+		</p>
+		<table id="invoice">
+			<thead>
+				<tr>
+					<th style="width: 20%">CATEGORIA</th>
+					<th style="width: 20%">CODIGO</th>
+					<th style="width: 20%">PRODUCTO</th>
+					<th style="width: 10%">CANT</th>
+					<th style="width: 15%">P.UNITARIO</th>
+					<th style="width: 15%">TOTAL</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for d in guide.detguide_set.all %}
+				<tr {% if forloop.first %}style="padding-top: 3px;" {% endif %}>
+					<td>{{ d.prod.category.name }}</td>
+					<td>{{ d.prod.code }}</td>
+					<td>{{ d.prod.name }}</td>
+					<td class="text-left">{{ d.cant }}</td>
+					<td class="text-left">${{ d.price }}</td>
+					<td style="text-align: left">${{ d.subtotal }}</td>
+				</tr>
+				{% endfor %}
+				<tr></tr>
+				<tr style="padding-top: 0px">
+					<td colspan="5"><b>TOTAL</b></td>
+					<td style="text-align: left">${{ guide.subtotal }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

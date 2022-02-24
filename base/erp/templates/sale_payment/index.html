@@ -1,0 +1,24 @@
+{% extends 'list.html' %} {% load static %} {% block head_list %}
+<script src="{% static 'sale_payment/js/list.js' %}"></script>
+{% endblock %} {% block table %}
+<div class="card-deck">
+	{% for local in object_list %}
+	<div class="card">
+		<div class="card-body">
+			<p class="card-text text-center text-bold text-uppercase">
+				{{local.name}}
+			</p>
+			<p class="card-text text-center">{{local.direction}}.</p>
+			<p class="card-text text-center">
+				<a class="btn btn-info" href="/erp/sale_payment/list/{{local.id}}/"
+					>Ir</a
+				>
+			</p>
+			<p class="card-text text-center">
+				<small class="text-muted">Registrado el {{ local.created }}</small>
+			</p>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock %} {% block javascript%} {%endblock%}

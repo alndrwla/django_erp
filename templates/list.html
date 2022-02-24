@@ -1,0 +1,89 @@
+{% extends 'admin/body.html' %}
+{% load static %}
+    
+{% block head %}
+    <link rel="stylesheet" href="{% static 'plugins/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+          href="{% static 'plugins/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'plugins/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'plugins/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+    {% block head_list %}
+
+    {% endblock %}
+
+{% endblock %}
+
+
+{% block content %}
+	<div class="card card-info">
+		<div class="card-header pb-1">
+			{% block buttons_list %}
+				<h4 class="text-uppercase text-center mb-0 pb-1">
+				{{ title }} 
+				{% if sale_location %}
+					Local	'{{sale_location}}'
+				{% endif %}
+				</h4>
+				{% if create_url %}
+					<a href="{{ create_url }}" class="btn btn-secondary btn-flat mb-0 pt-0">
+							<i class="fas fa-plus mb-0"></i> Nuevo registro
+					</a>
+				{% endif %}
+
+				{% if all_dealer %}
+					{% for dealer in all_dealer %}
+						<a href="/erp/product_print/{{dealer.id}}/" target="_blank" class="btn btn-secondary btn-flat mb-0 pt-0">
+								<i class="fas fa-print mb-0"></i> {{dealer.name}}
+						</a>
+					{% endfor %}
+				{% endif %}
+
+				{% if list_url %}
+					<a href="{{ list_url }}" class="btn btn-secondary btn-flat mb-0 pt-0">
+							<i class="fas fa-sync mb-0"></i> Actualizar
+					</a>
+				{% endif %}
+
+				{% if update_url %}
+					<a href="{{ update_url }}" class="btn bg-lightblue btn-flat mb-0 pt-0">
+							<i class="fas fa-edit mb-0"></i> Editar
+					</a>
+					<br>
+					<br>
+				{% endif %}
+
+			{% endblock %}
+		</div>
+
+		{% block table %}
+				<div class="card-body">
+						<table class="table table-bordered" id="data">
+								<thead>
+								{% block columns %}
+
+								{% endblock %}
+								</thead>
+								<tbody>
+								{% block rows %}
+
+								{% endblock %}
+								</tbody>
+						</table>
+				</div>
+		{% endblock table %}
+	</div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: false
+            });
+        });
+    </script>
+{% endblock %}

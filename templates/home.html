@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="icon" href="{% static 'img/empty.png' %}" type="image/png" />
+    <title>{{ title }}</title>
+
+    <!-- jQuery -->
+    <script src="{% static 'plugins/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Jquery Confirm -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}"
+    />
+    <script src="{% static 'plugins/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
+    <!-- Select 2 -->
+
+    <link
+      href="{% static 'plugins/select2-4.0.13/css/select2.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'plugins/select2-4.0.13/css/select2-bootstrap4.min.css' %}"
+      rel="stylesheet"
+    />
+    <script src="{% static 'plugins/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'plugins/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/fontawesome-free/css/all.min.css' %}"
+    />
+    <!-- overlayScrollbars -->
+    <link
+      rel="stylesheet"
+      href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}"
+    />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}" />
+    <!-- Google Font: Source Sans Pro -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+      rel="stylesheet"
+    />
+
+    <!-- Block head -->
+    {% block head %} {% endblock %}
+  </head>
+  {% block body %} {% endblock %}
+</html>

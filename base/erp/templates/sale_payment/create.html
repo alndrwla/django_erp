@@ -1,0 +1,210 @@
+{% extends 'list.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block head_list %}
+	<link href="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.css' %}" rel="stylesheet"/>
+	<script src="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+
+	<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet"/>
+	<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
+	<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+	<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+	<script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+	<script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+	<link href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet"/>
+
+	<link href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}" rel="stylesheet"/>
+	<script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+
+	<script src="{% static 'sale_payment/js/form.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+	<form id="frmSalePayment" method="post">
+		<div class="card card-primary">
+				<div class="card-header">
+					<h3 class="card-title">
+						{% if action == 'add' %}
+								<i class="fas fa-plus"></i>
+								<input type="hidden" name="sale_location_id" 
+								value="{{sale_location_id}}" id="sale_location_id">
+						{% else %}
+								<i class="fas fa-edit"></i>
+						{% endif %}
+						{{ title }}
+					</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card card-secondary">
+								<div class="card-header">
+									<h3 class="card-title"><i class="fas fa-boxes"></i> Detalle de la venta</h3>
+								</div>
+								<div class="card-body">
+									<table class="table table-bordered">
+										<thead>
+										<tr>
+											<th>Ci</th>
+											<th>Cliente</th>
+											<th>SubTotal</th>
+											<th>Iva</th>
+											<th>Total</th>
+											<th>Abono</th>
+											<th>Saldo Pendiente</th>
+
+										</tr>
+										</thead>
+										<tbody>
+											<tr>
+
+												<td>{{sale.cli.ci}}</td>
+												<td>{{sale.cli.names}} {{sale.cli.surnames}}</td>
+												<td>$ {{sale.subtotal}}</td>
+												<td>$ {{sale.iva}}</td>
+												<td>$ {{sale.total}}</td>
+												<td>$ {{sale.first_pay}}</td>
+												<td>$ {{sale.total_first_pay}}</td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							{% if sale_payments %}
+								<div class="card card-secondary">
+								<div class="card-header">
+									<h3 class="card-title"><i class="fas fa-boxes"></i> Detalle de pagos</h3>
+								</div>
+								<div class="card-body">
+									<table class="table table-bordered">
+										<thead>
+										<tr>
+											<th>Ci</th>
+											<th>Cliente</th>
+											<th>Detalle</th>
+											<th>Abono</th>
+											<th>Saldo</th>
+											<th>Fecha</th>
+											<th>Imprimir</th>
+										</tr>
+										</thead>
+										<tbody>
+											<tr>
+											{% for sale_pay in sale_payments %}
+												<tr>
+
+													<td>{{sale_pay.sale.cli.ci}}</td>
+													<td>{{sale_pay.sale.cli.names}} {{sale_pay.sale.cli.surnames}}</td>
+													<td>{{sale_pay.detail}}</td>
+													<td>{{sale_pay.payment}}</td>
+													<td>{{sale_pay.subtotal}}</td>
+													<td>{{sale_pay.created}}</td>
+													<td> <a href="/erp/sale_payment/invoice/pdf/{{sale_pay.id}}/" target="_blank" class="btn btn-info btn-xs btn-flat"><i class="fas fa-file-pdf"></i></a> </td>
+
+												</tr>
+											{% endfor %}
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							{% endif %}
+
+							{% if sale_last_payment.subtotal != 0 %}
+								<form action="." method="POST">
+								{% csrf_token %}
+								<div class="card">
+									<div class="card-header bg-primary">
+										<h3 class="card-title"> Agregar pago</h3>
+									</div>
+								</div>
+								<input type="hidden" name="sale" id="id_sale"
+								value="{{sale.id}}">
+								<input type="hidden" name="user" id="id_user" value="{{request.user.id}}">
+								<div class="form-group">
+									<label>Detalle:</label>
+									{{ form.detail }}
+								</div>
+								<div class="form-group">
+									<label>Pago:</label>
+									{{ form.payment }}
+								</div>
+								<div class="form-group">
+									<label>Subtotal:</label>
+									{{ form.subtotal }}
+								</div>
+							</form>
+							{% if sale_payments %}
+								<input type="hidden" id="id_sale_payments" value="{{ sale_last_payment.subtotal }}">
+								<script>
+									var total= 0.00;
+
+									var salesPayments = document.getElementById('id_sale_payments').value;
+
+									document.getElementById('id_subtotal').value = salesPayments;
+
+									total = salesPayments;
+
+								</script>
+							{% else %}
+								<input type="hidden" id="id_total" value="{{ sale.total }}">
+								
+								<input type="hidden" id="id_total_first_pay" value="{{ sale.total_first_pay }}">
+								<input type="hidden" id="id_first_pay" value="{{ sale.first_pay }}">
+
+								<script>
+
+									var id_first_pay = document.getElementById('id_first_pay').value;
+									var total= 0.00;
+
+									if (id_first_pay == '0,00'){
+										console.log("total");
+										var id_total = document.getElementById('id_total').value;
+										document.getElementById('id_subtotal').value = id_total;
+										total = id_total;
+									} else {
+										console.log("first_pay");
+										var id_total_first_pay = document.getElementById('id_total_first_pay').value;
+										document.getElementById('id_subtotal').value = id_total_first_pay;
+										total = id_total_first_pay;
+									}
+								</script>
+							{% endif %}
+
+							{% endif %}
+							
+						</div>
+					</div>
+				</div>
+				<div class="card-footer">
+					{% if sale_last_payment.subtotal != 0 %}
+
+						<button type="submit" class="btn btn-primary btn-flat">
+							<i class="fas fa-save"></i> Guardar registro
+						</button>
+					
+					{% endif %}
+					<a href="{{ list_url }}" class="btn btn-danger btn-flat">
+						<i class="fas fa-times"></i> Cancelar
+					</a>
+				</div>
+		</div>
+	</form>
+	
+	<script>
+		$( "#id_payment" ).keyup(function() {
+			
+			var payment = document.getElementById('id_payment').value;
+			if (payment.length == 0 || payment == 0){
+				document.getElementById('id_subtotal').value = total;
+			}else{
+				var totalPayment = Number(total.replace(",",".")) - Number(payment.replace(",","."));
+				document.getElementById('id_subtotal').value = totalPayment.toFixed(2);
+			}
+
+		});
+	</script>
+{% endblock %}

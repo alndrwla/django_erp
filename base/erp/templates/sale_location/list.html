@@ -1,0 +1,36 @@
+{% extends 'list.html' %} {% load static %} {% block head_list %} {% endblock %}
+{% block columns %}
+<tr>
+	<th scope="col" style="width: 10%">Nro</th>
+	<th scope="col" style="width: 20%">Nombre</th>
+	<th scope="col" style="width: 50%">Dirección</th>
+	<th scope="col" style="width: 50%">Empresa</th>
+	<th scope="col" style="width: 20%">Opciones</th>
+</tr>
+{% endblock %} {% block rows %} {% for object in object_list %}
+<tr>
+	<td scope="col" style="width: 10%">{{forloop.counter}}</td>
+	<td scope="col" style="width: 20%">{{object.name}}</td>
+	<td scope="col" style="width: 50%">{{object.direction}}</td>
+	<td scope="col" style="width: 20%">{{object.business}}</td>
+	<td>
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<a
+				href="{% url 'erp:sale_location_update' object.id %}"
+				class="btn btn-warning">Editar</a>
+			<a
+				href="{% url 'erp:sale_location_delete' object.id %}"
+				class="btn btn-danger">Eliminar</a>
+		</div>
+	</td>
+</tr>
+{% endfor %} {% endblock %} {% block javascript %}
+<script type="application/javascript">
+	$(function () {
+		$("#data").DataTable({
+			responsive: true,
+			autoWidth: false,
+		});
+	});
+</script>
+{% endblock %}

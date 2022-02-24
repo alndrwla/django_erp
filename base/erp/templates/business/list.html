@@ -1,0 +1,68 @@
+{% extends 'list.html' %} {% load static %} {% block head_list %}
+<script src="{% static 'business/js/list.js' %}"></script>
+{% endblock %} {% block table %}
+<form>
+	<br />
+	{% if object_list %}
+	<div class="form-group row">
+		<label for="inputBusiness" class="col-2 col-form-label text-center"
+			>Empresa</label
+		>
+		<div class="col-sm-10">
+			<input
+				type="text"
+				class="form-control"
+				value="{{ object_list.name}}"
+				id="inputBusiness"
+				readonly
+			/>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="inputRuc" class="col-sm-2 col-form-label text-center"
+			>Ruc</label
+		>
+		<div class="col-sm-10">
+			<input
+				type="text"
+				class="form-control"
+				value="{{ object_list.ruc}}"
+				id="inputRuc"
+				readonly
+			/>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="inputFacebook" class="col-sm-2 col-form-label text-center">Facebook</label>
+		<div class="col-sm-10">
+			<input
+				type="text"
+				class="form-control"
+				id="inputFacebook"
+				value="{{ object_list.facebook}}"
+				readonly
+			/>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label for="inputWhatsapp" class="col-sm-2 col-form-label text-center">Whatsapp</label>
+		<div class="col-sm-10">
+			<input
+				type="text"
+				class="form-control"
+				id="inputWhatsapp"
+				value="{{ object_list.whatsapp}}"
+				readonly />
+		</div>
+	</div>
+
+	<a href="{% url 'erp:business_update' object_list.id %}"
+		class="btn bg-lightblue btn-flat mr-5">
+		<i class="fas fa-edit mb-0"></i> Editar
+	</a>
+
+	{% endif %}
+	<br />
+	<br />
+</form>
+{% endblock table %} {% block javascript %} {% endblock %}

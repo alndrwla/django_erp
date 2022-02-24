@@ -1,0 +1,163 @@
+{% load static %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+	<!-- Brand Logo -->
+	<a href="." class="brand-link">
+		<img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+		<span class="brand-text font-weight-light">Erp</span>
+	</a>
+
+	<!-- Sidebar -->
+	<div class="sidebar">
+		<!-- Sidebar Menu -->
+		<nav class="mt-2">
+				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+				<!-- Add icons to the links using the .nav-icon class
+						with font-awesome or any other icon font library -->
+				{% if request.user.is_superuser%}
+				<li class="nav-item has-treeview">
+						<a href="#" class="nav-link">
+						<i class="fas fa-building"></i>
+						<p>
+								Empresa
+								<i class="fas fa-angle-left right"></i>
+						</p>
+						</a>
+						<ul class="nav nav-treeview">
+						<li class="nav-item">
+								<a href="{% url 'erp:business_list' %}" class="nav-link">
+								<i class="fas fa-business-time"></i>
+								<p>Datos</p>
+								</a>
+						</li>
+						<li class="nav-item">
+								<a href="{% url 'erp:sale_location_list' %}" class="nav-link">
+								<i class="fas fa-warehouse"></i>
+								<p>Locales</p>
+								</a>
+						</li>
+						<li class="nav-item">
+								<a href="{% url 'session:list' %}" class="nav-link">
+										<i class="nav-icon fas fa-user-friends"></i>
+										<p>
+												Usuarios
+										</p>
+								</a>
+						</li>
+						</ul>
+				</li>
+				{%endif%}
+				<li class="nav-item has-treeview">
+						<a href="#" class="nav-link">
+						<i class="fas fa-truck-loading"></i>
+						<p>
+								Inventario
+								<i class="fas fa-angle-left right"></i>
+						</p>
+						</a>
+						<ul class="nav nav-treeview">
+						{% if request.user.is_superuser %}
+						<li class="nav-item">
+								<a href="{% url 'erp:dealer_list' %}" class="nav-link">
+								<i class="fas fa-business-time"></i>
+								<p>Distribuidoras</p>
+								</a>
+						</li>
+						{% endif %}
+						<li class="nav-item">
+								<a href="{% url 'erp:category_list' %}" class="nav-link">
+								<i class="fas fa-warehouse"></i>
+								<p>Categorias</p>
+								</a>
+						</li>
+						<li class="nav-item">
+								<a href="{% url 'erp:product_list' %}" class="nav-link">
+								<i class="fas fa-box nav-icon"></i>
+								<p>Productos</p>
+								</a>
+						</li>
+
+						<li class="nav-item">
+								<a href="{% url 'erp:client_list' %}" class="nav-link">
+										<i class="nav-icon fas fa-users"></i>
+										<p>
+												Clientes
+										</p>
+								</a>
+						</li>
+						</ul>
+				</li>
+
+				<li class="nav-item has-treeview">
+						<a href="#" class="nav-link">
+						<i class="fas fa-shopping-cart"></i>
+						<p>
+								Ventas
+								<i class="fas fa-angle-left right"></i>
+						</p>
+						</a>
+						<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="{% url 'erp:sale_index' %}" class="nav-link">
+								<i class="nav-icon fas fa-shopping-cart"></i>
+								<p>
+										Ventas
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="{% url 'erp:sale_payment_index' %}" class="nav-link">
+								<i class="nav-icon fas fa-id-card-alt"></i>
+								<p>
+									Crédito
+								</p>
+							</a>
+						</li>
+						{% if request.user.is_superuser %}
+						<li class="nav-item">
+							<a href="{% url 'erp:paycheck_list' %}" class="nav-link">
+								<i class="fas fa-money-check-alt"></i>
+								<p>
+									Cheques
+								</p>
+							</a>
+						</li>
+						{% endif %}
+						<li class="nav-item">
+							<a href="{% url 'erp:guide_index' %}" class="nav-link">
+								<i class="fas fa-bus"></i>
+								<p>
+									Guia de remisión
+								</p>
+							</a>
+						</li>
+						</ul>
+				</li>
+
+				{% if request.user.is_superuser %}
+				<li class="nav-item has-treeview">
+						<a href="#" class="nav-link">
+						<i class="fas fa-chart-line"></i>
+						<p>
+							Reportes
+							<i class="fas fa-angle-left right"></i>
+						</p>
+						</a>
+						<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="{% url 'erp:dashboard' %}" class="nav-link">
+								<i class="nav-icon fas fa-chart-bar"></i>
+								<p>
+									Reportes
+								</p>
+							</a>
+						</li>
+						</ul>
+				</li>
+				{%endif%}
+
+		</nav>
+		<!-- /.sidebar-menu -->
+	</div>
+	<!-- /.sidebar -->
+</aside>

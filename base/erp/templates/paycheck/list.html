@@ -1,0 +1,20 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'paycheck/js/list.js' %}"></script>
+{% endblock %}
+{% block columns %}
+<tr>
+	<th scope="col" style="width: 5%">#</th>
+	<th scope="col" style="width: 15%">N. Cheque</th>
+	<th scope="col" style="width: 40%">Nombre</th>
+	<th scope="col" style="width: 15%">Suma</th>
+	<th scope="col" style="width: 10%">Fecha</th>
+	<th scope="col" style="width: 10%">Estado</th>
+	<th scope="col" style="width: 5%">Opciones</th>
+</tr>
+{% endblock %}
+{% block rows %}
+{% endblock %}
+{% block javascript %}
+{%endblock %}
